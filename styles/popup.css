@@ -1,0 +1,29 @@
+.joblens-popup {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 220px;
+    padding: 14px;
+    background-color: #111;
+    color: #e5e7eb;
+}
+
+#reset-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+#reset-btn:hover {
+    background: #27374d;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+#reset-btn:active {
+    background: #182230;
+}

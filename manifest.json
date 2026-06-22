@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "JobLens",
+    "version": "1.0",
+    "description": "Highlights useful job info on job boards",
+    "permissions": [
+        "storage"
+    ],
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.linkedin.com/jobs/*"
+            ],
+            "js": [
+                "parser/preprocess.js",
+                "parser/experienceParser.js",
+                "parser/techStackParser.js",
+                "content/overlay-state.js",
+                "content/overlay-position.js",
+                "content/overlay-drag.js",
+                "content/overlay-storage.js",
+                "content/overlay-dom.js",
+                "content/content.js"
+            ],
+            "css": [
+                "styles/joblens.css"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,143 @@
+.joblens {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 320px;
+    padding: 16px;
+
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    background: #111;
+    color: white;
+
+    transition: transform 0.2s ease;
+    z-index: 2147483647;
+
+    backdrop-filter: blur(6px);
+}
+
+.joblens.dragging {
+    transition: none;
+    cursor: grabbing;
+}
+
+#joblens-overlay {
+    will-change: transform;
+}
+
+.joblens-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    cursor: grab;
+    user-select: none;
+}
+
+.joblens-snap-toggle {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+.joblens-snap-toggle:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.joblens-section-title {
+    margin-top: 10px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.joblens-experience {
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.joblens-tech-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.joblens-tech-list li {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+.joblens--good {
+    border: 1px solid rgba(46, 204, 113, 0.35);
+    box-shadow:
+        0 0 0 1px rgba(46, 204, 113, 0.12),
+        0 0 18px rgba(46, 204, 113, 0.12);
+}
+
+.joblens--good .joblens-experience {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+}
+
+.joblens--medium {
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    box-shadow:
+        0 0 0 1px rgba(245, 158, 11, 0.12),
+        0 0 18px rgba(245, 158, 11, 0.12);
+}
+
+.joblens--medium .joblens-experience {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+
+.joblens--bad {
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    box-shadow:
+        0 0 0 1px rgba(239, 68, 68, 0.12),
+        0 0 18px rgba(239, 68, 68, 0.12);
+}
+
+.joblens--bad .joblens-experience {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.joblens--dark {
+    background: #0f1115;
+    color: #e5e7eb;
+}
+
+.joblens--light {
+    background: #ffffff;
+    color: #111827;
+}
