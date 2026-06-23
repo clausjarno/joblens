@@ -61,18 +61,21 @@ chrome.storage.onChanged.addListener((changes, area) => {
         return;
 
     if ("joblensPosX" in changes && changes.joblensPosX.newValue === undefined) {
-        poxX = window.innerWidth - overlayW - 40;
-        posY = 120;
         snapEnabled = true;
 
         if (overlayEl) {
+            overlayW = overlayEl.offsetWidth;
+            overlayH = overlayEl.offsetHeight;
+            
+            posX = window.innerWidth - overlayW - snapMargin;
+            posY = snapMargin;
+            overlayEl.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
+            savePosition();
 
             const snapToggle = overlayEl.querySelector("#joblens-snap-toggle");
             snapToggle.textContent = "📌";
             snapToggle.title = "Disable corner snapping";
             overlayEl.classList.remove("snap-disabled");
-
-            reposition();
         }
     }
 });

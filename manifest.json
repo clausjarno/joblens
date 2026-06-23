@@ -12,7 +12,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.linkedin.com/jobs/*"
+                "https://www.linkedin.com/*"
             ],
             "js": [
                 "parser/preprocess.js",

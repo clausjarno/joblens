@@ -1,20 +1,58 @@
-createOverlay();
-
 let lastJobId = null;
+let lastUrl = location.href;
+let observer = null;
 
-// Observe changes to DOM element, run function if something changed.
-const targetNode = document.querySelector(".jobs-search__job-details--wrapper");
+setInterval(() => {
+    if (location.href !== lastUrl) {
+        lastUrl = location.href;
+        handleUrlChange();
+    }
+}, 500);
 
-if (targetNode) {
-    const observer = new MutationObserver(() => {
-        handleJobChange();
-    });
+function handleUrlChange() {
+    if (isJobPostingUrl(location.href)) {
+        const jobId = new URLSearchParams(window.location.search).get("currentJobId");
 
-    observer.observe(targetNode, {
-        childList: true,
-        subtree: true,
-        characterData: true
-    });
+        // Is it the same job?
+        if (jobId === lastJobId)
+            return;
+        lastJobId = jobId;
+
+        if (!overlayEl)
+            createOverlay();
+
+        watchForJobContent();
+    }
+    else {
+        removeOverlay();
+        lastJobId = null;
+        observer?.disconnect();
+    }
+}
+
+function watchForJobContent() {
+    // stop watching for the previous job.
+    observer?.disconnect();
+
+    // Observe changes to DOM element, run function if something changed.
+    const targetNode = document.querySelector(".jobs-search__job-details--wrapper");
+
+    if (targetNode) {
+        observer = new MutationObserver(() => {
+            handleJobChange();
+        });
+
+        observer.observe(targetNode, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+    }
+
+}
+
+function isJobPostingUrl(url) {
+    return new URLSearchParams(location.search).has("currentJobId");
 }
 
 function handleJobChange() {
@@ -23,13 +61,6 @@ function handleJobChange() {
     // Safeguard against unloaded DOM elements.
     if (!text || text.trim().length < 100)
         return;
-
-    const jobId = new URLSearchParams(window.location.search).get("currentJobId");
-
-    // Is it the same job? (check because observer can make it refresh more than once)
-    if (jobId === lastJobId)
-        return;
-    lastJobId = jobId;
 
     // Tests each extracted line against each regex.
     const lines = getExperienceSentences(text);

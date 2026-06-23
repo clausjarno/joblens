@@ -1,0 +1,15 @@
+https://www.linkedin.com/jobs/* -> activates extension.
+Going from LinkedIn homepage to job page does no reload so extension doesn't activate.
+
+
+Need to handle next cases:
+Handle case "strong experience" for semantic.
+In4Matic is een IT-consultancy en recruitmentbedrijf met 26 jaar ervaring in het leveren van IT-diensten voor diverse sectoren. -> 26 jaar ervaring.
+
+
+Questions:
+What is area?
+How does Changes work in chrome storage?
+
+Current Issue:
+It only creates when a job posting is clicked which is nice, but when I go from homepage -> job page it turns up but without any parsing values.
