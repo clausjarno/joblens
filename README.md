@@ -1,6 +1,6 @@
 # JobLens
 
-<p align="center>
+<p align="center">
 <img src="assets/joblens-demo.gif" width="800"/>
 </p>
 
