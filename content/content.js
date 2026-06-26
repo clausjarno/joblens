@@ -1,27 +1,46 @@
 let observer = null;
-let timer = null;
 
-// Observe the entire document.body with a debouncer.
-observer = new MutationObserver(() => {
-    clearTimeout(timer);
-
-    timer = setTimeout(() => {
-        handleJobChange();
-    }, 100);
+chrome.runtime.onMessage.addListener((message) => { 
+if(message.enabled === true) {
+    startObserving();
+}
+else {
+    stopObserving();
+}
 });
 
-observer.observe(document.body, {
-    childList: true,
-    subtree: true
-});
+function startObserving() {
+    let timer = null;
 
-function handleJobChange() {
+    // Initial scan of the page.
+    handleJobText();
+
+    // Observe the entire document.body with a debouncer.
+    observer = new MutationObserver(() => {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            handleJobText();
+        }, 100);
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function stopObserving() {
+    observer?.disconnect();
+}
+
+function handleJobText() {
     let text = preprocess(getJobDescriptionNode().textContent);
 
     // Safeguard against unloaded DOM elements.
     if (!text || text.trim().length < 100)
         return;
-
+    
     // Tests each extracted line against each regex.
     const lines = getExperienceSentences(text);
     let bestMatch = null;
