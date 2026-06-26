@@ -66,7 +66,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
         if (overlayEl) {
             overlayW = overlayEl.offsetWidth;
             overlayH = overlayEl.offsetHeight;
-            
+
             posX = window.innerWidth - overlayW - snapMargin;
             posY = snapMargin;
             overlayEl.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;

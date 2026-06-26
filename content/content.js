@@ -1,62 +1,22 @@
-let lastJobId = null;
-let lastUrl = location.href;
 let observer = null;
+let timer = null;
 
-setInterval(() => {
-    if (location.href !== lastUrl) {
-        lastUrl = location.href;
-        handleUrlChange();
-    }
-}, 500);
+// Observe the entire document.body with a debouncer.
+observer = new MutationObserver(() => {
+    clearTimeout(timer);
 
-function handleUrlChange() {
-    if (isJobPostingUrl(location.href)) {
-        const jobId = new URLSearchParams(window.location.search).get("currentJobId");
+    timer = setTimeout(() => {
+        handleJobChange();
+    }, 100);
+});
 
-        // Is it the same job?
-        if (jobId === lastJobId)
-            return;
-        lastJobId = jobId;
-
-        if (!overlayEl)
-            createOverlay();
-
-        watchForJobContent();
-    }
-    else {
-        removeOverlay();
-        lastJobId = null;
-        observer?.disconnect();
-    }
-}
-
-function watchForJobContent() {
-    // stop watching for the previous job.
-    observer?.disconnect();
-
-    // Observe changes to DOM element, run function if something changed.
-    const targetNode = document.querySelector(".jobs-search__job-details--wrapper");
-
-    if (targetNode) {
-        observer = new MutationObserver(() => {
-            handleJobChange();
-        });
-
-        observer.observe(targetNode, {
-            childList: true,
-            subtree: true,
-            characterData: true
-        });
-    }
-
-}
-
-function isJobPostingUrl(url) {
-    return new URLSearchParams(location.search).has("currentJobId");
-}
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
+});
 
 function handleJobChange() {
-    let text = preprocess(getJobDescription());
+    let text = preprocess(getJobDescriptionNode().textContent);
 
     // Safeguard against unloaded DOM elements.
     if (!text || text.trim().length < 100)

@@ -1,8 +1,22 @@
-// Get description and parse text to lowercase and normalize numbers.
+// Return the node with the job description.
+function getJobDescriptionNode() {
+    const nodes = Array.from(document.querySelectorAll("div, section, article, main"));
 
-function getJobDescription() {
-    const jobDescriptionContainer = document.querySelector(".jobs-description__container");
-    return jobDescriptionContainer?.innerText || null;
+    let score = -Infinity;
+    let bestMatch = null;
+
+    for (let node of nodes) {
+        let liCount = node.querySelectorAll("li").length;
+        let textLength = node.textContent.length;
+
+        let newScore = (textLength / 50) + (liCount * 0.2);
+
+        if (newScore > score) {
+            score = newScore;
+            bestMatch = node;
+        }
+    }
+    return bestMatch;
 }
 
 function preprocess(text) {
