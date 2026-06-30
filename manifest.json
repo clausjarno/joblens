@@ -4,10 +4,14 @@
     "version": "1.0",
     "description": "Highlights useful job info on job boards",
     "permissions": [
-        "storage"
+        "storage",
+        "activeTab"
     ],
     "action": {
         "default_popup": "popup/popup.html"
+    },
+    "background": {
+        "service_worker": "config/background.js"
     },
     "content_scripts": [
         {

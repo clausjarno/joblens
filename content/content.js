@@ -1,26 +1,44 @@
 let observer = null;
 
-chrome.runtime.onMessage.addListener((message) => { 
-if(message.enabled === true) {
-    startObserving();
-}
-else {
-    stopObserving();
-}
+// Check when page loads.
+chrome.storage.local.get("joblensEnabled",
+    (result) => {
+        if (result.joblensEnabled) {
+            startObserving();
+        }
+        else {
+            stopObserving();
+        }
+    });
+
+// Listen for a message from toggler.
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.enabled === true) {
+        startObserving();
+    }
+    else {
+        stopObserving();
+    }
 });
 
 function startObserving() {
     let timer = null;
 
+    createOverlay();
+
     // Initial scan of the page.
     handleJobText();
 
     // Observe the entire document.body with a debouncer.
-    observer = new MutationObserver(() => {
+    // Check for mutation in overlayEl -> don't need to fire observer.
+    observer = new MutationObserver((mutations) => {
+        let hasExternalMutation = mutations.some(m => !overlayEl.contains(m.target));
         clearTimeout(timer);
 
         timer = setTimeout(() => {
-            handleJobText();
+            if (hasExternalMutation) {
+                handleJobText();
+            }
         }, 100);
     });
 
@@ -32,6 +50,7 @@ function startObserving() {
 
 function stopObserving() {
     observer?.disconnect();
+    removeOverlay();
 }
 
 function handleJobText() {
@@ -40,7 +59,7 @@ function handleJobText() {
     // Safeguard against unloaded DOM elements.
     if (!text || text.trim().length < 100)
         return;
-    
+
     // Tests each extracted line against each regex.
     const lines = getExperienceSentences(text);
     let bestMatch = null;
@@ -55,7 +74,7 @@ function handleJobText() {
 
         const score = scoreLine(line);
 
-        console.log("Line: ", line);
+        // console.log("Line: ", line);
         console.log("Score: ", score);
 
         if (score > bestScore) {

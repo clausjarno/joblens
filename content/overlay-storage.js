@@ -30,7 +30,6 @@ function loadPositionAndInit() {
 
             if (result.joblensPosX != null && result.joblensPosY != null) {
                 posX = result.joblensPosX;
-                console.log("PosX ", posX)
                 posY = result.joblensPosY;
             } else {
                 posX = window.innerWidth - overlayW - 40;
